@@ -11,8 +11,7 @@ var obstaclesGroup, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obsta
 var score=0;
 
 var gameOver, restart;
-
-localStorage["HighestScore"] = 0;
+var bgcolor=180;
 
 function preload(){
   trex_running =   loadAnimation("trex1.png","trex3.png","trex4.png");
@@ -69,12 +68,22 @@ function setup() {
 }
 
 function draw() {
-  //trex.debug = true;
-  background(255);
+  
+  background(bgcolor);
   text("Score: "+ score, 500,50);
   
   if (gameState===PLAY){
+    
     score = score + Math.round(getFrameRate()/60);
+    
+    if(score%300===0){
+    bgcolor=50;
+       }
+    
+    if(score%500===0){
+    bgcolor=180;
+       }
+    
     ground.velocityX = -(6 + 3*score/100);
   
     if(keyDown("space") && trex.y >= 159) {
@@ -185,10 +194,7 @@ function reset(){
   
   trex.changeAnimation("running",trex_running);
   
-  if(localStorage["HighestScore"]<score){
-    localStorage["HighestScore"] = score;
-  }
-  console.log(localStorage["HighestScore"]);
+  
   
   score = 0;
   
